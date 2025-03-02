@@ -1,7 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Core.Domain;
-using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.ArticleRepository.DbModels;
 
@@ -20,8 +17,6 @@ public class Book
     [MaxLength(17, ErrorMessage = "Isbn must be 17 characters")]
     [MinLength(17)]
     public required string Isbn { get; init; }
-    
-    [MaxLength(20)]
-    [MinLength(5)]
-    public required string Status { get; init; }
+
+    [MaxLength(20)] [MinLength(5)] public required string Status { get; init; }
 }

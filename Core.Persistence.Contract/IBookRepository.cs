@@ -7,7 +7,9 @@ namespace Core.Persistence.Contract;
 /// </summary>
 public interface IBookRepository
 {
-    public Task<int> SaveBookAsync(Book book);
+    public Task<ulong> AddAsync(Book book);
+
+    public Task UpdateAsync(Book book);
     //
     // /// <summary>
     // ///     Get particular article by it's id

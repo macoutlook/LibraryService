@@ -1,10 +1,14 @@
-namespace Service.Dtos
+using System.Text.Json.Serialization;
+using Core.Domain;
+
+namespace Service.Dtos;
+
+public class BookDto
 {
-    public class BookDto
-    {
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public string Content { get; set; }
-        public string Category { get; set; }
-    }
+    public required string Title { get; set; }
+    public required string Author { get; set; }
+    public required string Isbn { get; set; }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public Status Status { get; set; }
 }

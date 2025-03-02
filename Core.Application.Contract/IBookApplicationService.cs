@@ -8,5 +8,6 @@ public interface IBookApplicationService
     //
     // public Task<IEnumerable<Book>> GetArticlesAsync(string? category, int skip = 0, int take = 5);
 
-    public Task<int> AddBookAsync(Book book);
+    public Task<ulong> AddBookAsync(Book book);
+    public Task UpdateBookAsync(Book book);
 }

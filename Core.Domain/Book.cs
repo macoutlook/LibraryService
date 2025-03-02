@@ -1,22 +1,23 @@
-﻿namespace Core.Domain
+﻿using System.Runtime.Serialization;
+
+namespace Core.Domain;
+
+public class Book
 {
-    public class Book
-    {
-        public ulong Id { get; set; }
+    public ulong Id { get; set; }
 
-        public required string Title { get; set; }
+    public required string Title { get; init; }
 
-        public required string Author { get; set; }
+    public required string Author { get; init; }
 
-        public required string Isbn { get; set; }
-        public Status Status { get; set; }
-    }
+    public required string Isbn { get; init; }
+    public Status Status { get; init; }
+}
 
-    public enum Status
-    {
-        OnShelf,
-        CheckedOut,
-        Returned,
-        BrokenDown
-    }
+public enum Status
+{
+    [EnumMember(Value = "OnShelf")] OnShelf,
+    [EnumMember(Value = "CheckedOut")] CheckedOut,
+    [EnumMember(Value = "Returned")] Returned,
+    [EnumMember(Value = "BrokenDown")] BrokenDown
 }

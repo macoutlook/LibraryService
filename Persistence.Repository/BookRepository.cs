@@ -2,7 +2,6 @@
 using Core.Domain;
 using Core.Exceptions;
 using Core.Persistence.Contract;
-using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.ArticleRepository;
 
@@ -17,22 +16,37 @@ public class BookRepository : IBookRepository
         _mapper = mapper;
     }
 
-    public async Task<int> SaveBookAsync(Book book)
+    public async Task<ulong> AddAsync(Book book)
     {
-        // var newArticle = new DbModels.Article
-        // {
-        //     Category = articleDomain.Category,
-        //     Content = articleDomain.Content,
-        //     Title = articleDomain.Title
-        // };
-        //
-        // await _context.Articles.AddAsync(newArticle).ConfigureAwait(false);
-        // await _context.SaveChangesAsync().ConfigureAwait(false);
-        //
-        // return newArticle.Id != 0
-        //     ? newArticle.Id
-        //     : throw new NoRecordCreatedException("Cannot create new article with sent request");
-        return await Task.FromResult(1);
+        var bookDb = new DbModels.Book
+        {
+            Title = book.Title,
+            Author = book.Author,
+            Isbn = book.Isbn,
+            Status = book.Status.ToString()
+        };
+
+        await _context.Books.AddAsync(bookDb);
+        await _context.SaveChangesAsync();
+
+        return bookDb.Id != 0
+            ? bookDb.Id
+            : throw new NoRecordCreatedException("Cannot create new article with sent request");
+    }
+
+    public async Task UpdateAsync(Book book)
+    {
+        var bookDb = new DbModels.Book
+        {
+            Id = book.Id,
+            Title = book.Title,
+            Author = book.Author,
+            Isbn = book.Isbn,
+            Status = book.Status.ToString()
+        };
+
+        _context.Books.Update(bookDb);
+        await _context.SaveChangesAsync();
     }
 
     // public async Task<Article?> GetArticleAsync(int id)

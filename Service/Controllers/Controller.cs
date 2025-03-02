@@ -17,10 +17,10 @@ public class Controller(
     : ControllerBase
 {
     [HttpPost]
-    [Route("/article")]
-    [ProducesResponseType((int) HttpStatusCode.Created)]
-    [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-    public async Task<ActionResult<string>> Post([FromBody] [Required] BookDto bookDto)
+    [Route("/book")]
+    [ProducesResponseType((int)HttpStatusCode.Created)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    public async Task<ActionResult<string>> Add([FromBody] [Required] BookDto bookDto)
     {
         var bookId = await bookApplicationService.AddBookAsync(mapper.Map<Book>(bookDto))
             .ConfigureAwait(false);
@@ -28,6 +28,29 @@ public class Controller(
         logger.LogInformation("Book with id={bookId} was created.", bookId);
 
         return Created($"/book/{bookId}", bookId);
+    }
+
+    [HttpPost]
+    [Route("/book/{id}")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    public async Task<ActionResult<string>> Update(ulong id, [FromBody] [Required] BookDto bookDto)
+    {
+        var bookDomainModel = new Book
+        {
+            Id = id,
+            Author = bookDto.Author,
+            Title = bookDto.Title,
+            Isbn = bookDto.Isbn,
+            Status = bookDto.Status
+        };
+        
+        await bookApplicationService.UpdateBookAsync(bookDomainModel)
+            .ConfigureAwait(false);
+
+        logger.LogInformation("Book with id={bookId} was updated.", id);
+
+        return Ok();
     }
 
     // [HttpGet]

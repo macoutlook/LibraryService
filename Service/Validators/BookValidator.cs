@@ -3,13 +3,17 @@ using Service.Dtos;
 
 namespace Service.Validators;
 
-internal class BookValidator : AbstractValidator<BookDto>
+internal abstract class BookValidator : AbstractValidator<BookDto>
 {
     public BookValidator()
     {
         RuleFor(a => a).NotEmpty();
-        RuleFor(r => r.Category).NotEmpty();
-        RuleFor(r => r.Content).NotEmpty();
         RuleFor(r => r.Title).NotEmpty();
+        RuleFor(r => r.Title).Length(1, 320).WithMessage("Title must be between 3 and 50 characters long.");
+        RuleFor(r => r.Author).NotEmpty();
+        RuleFor(r => r.Title).Length(3, 320).WithMessage("Title must be between 3 and 50 characters long.");
+        RuleFor(r => r.Isbn).NotEmpty();
+        RuleFor(r => r.Isbn).Length(17);
+        RuleFor(r => r.Status).NotEmpty();
     }
 }

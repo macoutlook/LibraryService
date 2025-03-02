@@ -2,30 +2,27 @@
 using Core.Domain;
 using Core.Persistence.Contract;
 
-namespace Core.Application
+namespace Core.Application;
+
+public class BookApplicationService(IBookRepository repository) : IBookApplicationService
 {
-    public class BookApplicationService : IBookApplicationService
+    public async Task<ulong> AddBookAsync(Book book)
     {
-        private readonly IBookRepository _repository;
-
-        public BookApplicationService(IBookRepository repository)
-        {
-            _repository = repository;
-        }
-
-        public async Task<int> AddBookAsync(Book book)
-        {
-            return await _repository.SaveBookAsync(book).ConfigureAwait(false);
-        }
-
-        // public async Task<Book?> GetArticleAsync(int id)
-        // {
-        //     return await _repository.GetArticleAsync(id).ConfigureAwait(false);
-        // }
-        //
-        // public async Task<IEnumerable<Book>> GetArticlesAsync(string? category, int skip = 0, int take = 5)
-        // {
-        //     return await _repository.GetArticlesAsync(category, skip, take).ConfigureAwait(false);
-        // }
+        return await repository.AddAsync(book).ConfigureAwait(false);
     }
+
+    public async Task UpdateBookAsync(Book book)
+    {
+        await repository.UpdateAsync(book);
+    }
+
+    // public async Task<Book?> GetArticleAsync(int id)
+    // {
+    //     return await _repository.GetArticleAsync(id).ConfigureAwait(false);
+    // }
+    //
+    // public async Task<IEnumerable<Book>> GetArticlesAsync(string? category, int skip = 0, int take = 5)
+    // {
+    //     return await _repository.GetArticlesAsync(category, skip, take).ConfigureAwait(false);
+    // }
 }

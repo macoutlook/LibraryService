@@ -18,7 +18,7 @@ public class ExceptionFilter : IAsyncExceptionFilter
         switch (context.Exception)
         {
             case IException:
-                var exception = (IException) context.Exception;
+                var exception = (IException)context.Exception;
                 var customExceptionResult =
                     new ObjectResult($"{exception.OutsideMessage}{Environment.NewLine}Find details in log");
                 customExceptionResult.StatusCode = exception.StatusCode;
