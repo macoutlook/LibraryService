@@ -44,16 +44,7 @@ public class BookRepository(BookContext context, IMapper mapper) : IBookReposito
         context.Books.Update(bookDb);
         await context.SaveChangesAsync();
     }
-
-    public async Task DeleteAsync(ulong id)
-    {
-        var book = await context.Books.FindAsync(id);
-        if(book is null)
-            throw new InvalidOperationException("Book with given id does not exist.");
-        context.Books.Remove(book);
-        await context.SaveChangesAsync();
-    }
-
+    
     public async Task UpdateStatusAsync(ulong id, string status)
     {
         var book = new DbModels.Book { Id = id, Status = status };
@@ -61,6 +52,15 @@ public class BookRepository(BookContext context, IMapper mapper) : IBookReposito
         context.Books.Attach(book);
         context.Entry(book).Property(b => b.Status).IsModified = true;
         
+        await context.SaveChangesAsync();
+    }
+
+    public async Task DeleteAsync(ulong id)
+    {
+        var book = await context.Books.FirstOrDefaultAsync(b => b.Id.Equals(id));
+        if(book is null)
+            throw new InvalidOperationException("Book with given id does not exist.");
+        context.Books.Remove(book);
         await context.SaveChangesAsync();
     }
     

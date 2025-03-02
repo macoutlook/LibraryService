@@ -22,8 +22,7 @@ public class Controller(
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<ActionResult<string>> Add([FromBody] [Required] BookDto bookDto)
     {
-        var bookId = await bookApplicationService.AddBookAsync(mapper.Map<Book>(bookDto))
-            .ConfigureAwait(false);
+        var bookId = await bookApplicationService.AddBookAsync(mapper.Map<Book>(bookDto));
 
         logger.LogInformation("Book with id={bookId} was created.", bookId);
 
@@ -45,8 +44,7 @@ public class Controller(
             BookStatus = bookDto.BookStatus
         };
 
-        await bookApplicationService.UpdateBookAsync(bookDomainModel)
-            .ConfigureAwait(false);
+        await bookApplicationService.UpdateBookAsync(bookDomainModel);
 
         logger.LogInformation("Book with id={bookId} was updated.", id);
 
@@ -59,8 +57,7 @@ public class Controller(
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<ActionResult<string>> UpdateStatus(ulong id, [FromBody] BookStatus bookStatus)
     {
-        await bookApplicationService.UpdateStatusAsync(id, bookStatus)
-            .ConfigureAwait(false);
+        await bookApplicationService.UpdateStatusAsync(id, bookStatus);
 
         logger.LogInformation("Book's status with id={bookId} was updated.", id);
 
@@ -73,8 +70,7 @@ public class Controller(
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<ActionResult<string>> Delete(ulong id)
     {
-        await bookApplicationService.DeleteBookAsync(id)
-            .ConfigureAwait(false);
+        await bookApplicationService.DeleteBookAsync(id);
 
         logger.LogInformation("Book's status with id={bookId} was deleted.", id);
 
