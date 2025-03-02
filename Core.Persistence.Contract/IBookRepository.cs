@@ -11,6 +11,8 @@ public interface IBookRepository : IBookStatusRepository
 
     public Task UpdateAsync(Book book);
     
+    public Task DeleteAsync(ulong id);
+    
     //
     // /// <summary>
     // ///     Get particular article by it's id

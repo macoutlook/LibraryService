@@ -24,7 +24,6 @@ public class BookStateMachine(IBookStatusRepository bookStatusRepository)
             MarkAsBrokenDown();
     }
 
-
     private void MarkAsBrokenDown()
     {
         if (_currentState is BookStatus.OnShelf or BookStatus.Returned)

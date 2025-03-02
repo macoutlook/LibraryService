@@ -66,6 +66,20 @@ public class Controller(
 
         return Ok();
     }
+    
+    [HttpDelete]
+    [Route("/book/{id}")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    public async Task<ActionResult<string>> Delete(ulong id)
+    {
+        await bookApplicationService.DeleteBookAsync(id)
+            .ConfigureAwait(false);
+
+        logger.LogInformation("Book's status with id={bookId} was deleted.", id);
+
+        return Ok();
+    }
 
     // [HttpGet]
     // [Route("article/{Id}")]
