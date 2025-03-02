@@ -16,6 +16,11 @@ public class BookApplicationService(IBookRepository repository) : IBookApplicati
         await repository.UpdateAsync(book);
     }
 
+    public async Task UpdateStatusAsync(ulong id, Status status)
+    {
+        await repository.UpdateStatusAsync(id, status.ToString());
+    }
+
     // public async Task<Book?> GetArticleAsync(int id)
     // {
     //     return await _repository.GetArticleAsync(id).ConfigureAwait(false);

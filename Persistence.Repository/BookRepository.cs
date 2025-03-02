@@ -5,16 +5,9 @@ using Core.Persistence.Contract;
 
 namespace Persistence.ArticleRepository;
 
-public class BookRepository : IBookRepository
+public class BookRepository(BookContext context, IMapper mapper) : IBookRepository
 {
-    private readonly BookContext _context;
-    private readonly IMapper _mapper;
-
-    public BookRepository(BookContext context, IMapper mapper)
-    {
-        _context = context;
-        _mapper = mapper;
-    }
+    private readonly IMapper _mapper = mapper;
 
     public async Task<ulong> AddAsync(Book book)
     {
@@ -26,8 +19,8 @@ public class BookRepository : IBookRepository
             Status = book.Status.ToString()
         };
 
-        await _context.Books.AddAsync(bookDb);
-        await _context.SaveChangesAsync();
+        await context.Books.AddAsync(bookDb);
+        await context.SaveChangesAsync();
 
         return bookDb.Id != 0
             ? bookDb.Id
@@ -45,8 +38,17 @@ public class BookRepository : IBookRepository
             Status = book.Status.ToString()
         };
 
-        _context.Books.Update(bookDb);
-        await _context.SaveChangesAsync();
+        context.Books.Update(bookDb);
+        await context.SaveChangesAsync();
+    }
+    
+    public async Task UpdateStatusAsync(ulong id, string status)
+    {
+        var book = new DbModels.Book { Id = id, Status = status };
+        context.Books.Attach(book);
+        context.Entry(book).Property(b => b.Status).IsModified = true;
+        
+        await context.SaveChangesAsync();
     }
 
     // public async Task<Article?> GetArticleAsync(int id)

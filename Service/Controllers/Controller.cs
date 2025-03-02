@@ -52,6 +52,20 @@ public class Controller(
 
         return Ok();
     }
+    
+    [HttpPatch]
+    [Route("/book/{id}")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    public async Task<ActionResult<string>> UpdateStatus(ulong id, [FromBody] Status status)
+    {
+        await bookApplicationService.UpdateStatusAsync(id, status)
+            .ConfigureAwait(false);
+
+        logger.LogInformation("Book's status with id={bookId} was updated.", id);
+
+        return Ok();
+    }
 
     // [HttpGet]
     // [Route("article/{Id}")]

@@ -4,13 +4,13 @@ namespace Core.Domain;
 
 public class Book
 {
-    public ulong Id { get; set; }
+    public ulong Id { get; init; }
 
-    public required string Title { get; init; }
+    public string Title { get; init; } = null!;
 
-    public required string Author { get; init; }
+    public string Author { get; init; } = null!;
 
-    public required string Isbn { get; init; }
+    public string Isbn { get; init; } = null!;
     public Status Status { get; init; }
 }
 

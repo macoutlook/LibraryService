@@ -10,6 +10,8 @@ public interface IBookRepository
     public Task<ulong> AddAsync(Book book);
 
     public Task UpdateAsync(Book book);
+
+    Task UpdateStatusAsync(ulong id, string status);
     //
     // /// <summary>
     // ///     Get particular article by it's id
