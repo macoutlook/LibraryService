@@ -5,13 +5,12 @@ namespace Core.Persistence.Contract;
 /// <summary>
 ///     Contract for repository to get and save article's data
 /// </summary>
-public interface IBookRepository
+public interface IBookRepository : IBookStatusRepository
 {
     public Task<ulong> AddAsync(Book book);
 
     public Task UpdateAsync(Book book);
-
-    Task UpdateStatusAsync(ulong id, string status);
+    
     //
     // /// <summary>
     // ///     Get particular article by it's id

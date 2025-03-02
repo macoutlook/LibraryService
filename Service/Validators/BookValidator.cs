@@ -14,6 +14,6 @@ internal abstract class BookValidator : AbstractValidator<BookDto>
         RuleFor(r => r.Title).Length(3, 320).WithMessage("Title must be between 3 and 50 characters long.");
         RuleFor(r => r.Isbn).NotEmpty();
         RuleFor(r => r.Isbn).Length(17);
-        RuleFor(r => r.Status).NotEmpty();
+        RuleFor(r => r.BookStatus).NotEmpty();
     }
 }

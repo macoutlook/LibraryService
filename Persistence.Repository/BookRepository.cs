@@ -2,6 +2,7 @@
 using Core.Domain;
 using Core.Exceptions;
 using Core.Persistence.Contract;
+using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.ArticleRepository;
 
@@ -9,6 +10,8 @@ public class BookRepository(BookContext context, IMapper mapper) : IBookReposito
 {
     private readonly IMapper _mapper = mapper;
 
+    # region Command
+    
     public async Task<ulong> AddAsync(Book book)
     {
         var bookDb = new DbModels.Book
@@ -16,7 +19,7 @@ public class BookRepository(BookContext context, IMapper mapper) : IBookReposito
             Title = book.Title,
             Author = book.Author,
             Isbn = book.Isbn,
-            Status = book.Status.ToString()
+            Status = book.BookStatus.ToString()
         };
 
         await context.Books.AddAsync(bookDb);
@@ -26,7 +29,7 @@ public class BookRepository(BookContext context, IMapper mapper) : IBookReposito
             ? bookDb.Id
             : throw new NoRecordCreatedException("Cannot create new article with sent request");
     }
-
+    
     public async Task UpdateAsync(Book book)
     {
         var bookDb = new DbModels.Book
@@ -35,7 +38,7 @@ public class BookRepository(BookContext context, IMapper mapper) : IBookReposito
             Title = book.Title,
             Author = book.Author,
             Isbn = book.Isbn,
-            Status = book.Status.ToString()
+            Status = book.BookStatus.ToString()
         };
 
         context.Books.Update(bookDb);
@@ -45,11 +48,30 @@ public class BookRepository(BookContext context, IMapper mapper) : IBookReposito
     public async Task UpdateStatusAsync(ulong id, string status)
     {
         var book = new DbModels.Book { Id = id, Status = status };
+        
         context.Books.Attach(book);
         context.Entry(book).Property(b => b.Status).IsModified = true;
         
         await context.SaveChangesAsync();
     }
+    
+    # endregion
+
+    # region Query
+    
+    public async Task<string> GetStatusAsync(ulong id)
+    {
+        var book = await context.Books.AsNoTracking().FirstOrDefaultAsync(b => b.Id == id);
+        if(book is null)
+            throw new InvalidOperationException("Given id does not exist."); 
+        
+        return book.Status;
+    }
+    
+    # endregion
+    
+
+
 
     // public async Task<Article?> GetArticleAsync(int id)
     // {

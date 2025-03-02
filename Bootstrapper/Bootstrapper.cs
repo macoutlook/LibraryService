@@ -13,12 +13,14 @@ public static class Bootstrapper
 {
     public static void RegisterApplication(this IServiceCollection services)
     {
+        services.AddScoped<BookStateMachine>();
         services.AddScoped<IBookApplicationService, BookApplicationService>();
     }
 
     public static void RegisterPersistence(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<IBookRepository, BookRepository>();
+        services.AddScoped<IBookStatusRepository, BookRepository>();
         services.AddDbContext<BookContext>(options =>
             options.UseSqlServer(configuration.GetSection("ConnectionString").Value));
     }

@@ -10,5 +10,5 @@ public class BookDto
     public required string Isbn { get; set; }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public Status Status { get; set; }
+    public BookStatus BookStatus { get; set; }
 }

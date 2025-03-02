@@ -10,5 +10,5 @@ public interface IBookApplicationService
 
     public Task<ulong> AddBookAsync(Book book);
     public Task UpdateBookAsync(Book book);
-    public Task UpdateStatusAsync(ulong id, Status status);
+    public Task UpdateStatusAsync(ulong id, BookStatus bookStatus);
 }

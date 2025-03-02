@@ -11,10 +11,10 @@ public class Book
     public string Author { get; init; } = null!;
 
     public string Isbn { get; init; } = null!;
-    public Status Status { get; init; }
+    public BookStatus BookStatus { get; init; }
 }
 
-public enum Status
+public enum BookStatus
 {
     [EnumMember(Value = "OnShelf")] OnShelf,
     [EnumMember(Value = "CheckedOut")] CheckedOut,

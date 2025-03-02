@@ -42,9 +42,9 @@ public class Controller(
             Author = bookDto.Author,
             Title = bookDto.Title,
             Isbn = bookDto.Isbn,
-            Status = bookDto.Status
+            BookStatus = bookDto.BookStatus
         };
-        
+
         await bookApplicationService.UpdateBookAsync(bookDomainModel)
             .ConfigureAwait(false);
 
@@ -52,14 +52,14 @@ public class Controller(
 
         return Ok();
     }
-    
+
     [HttpPatch]
     [Route("/book/{id}")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<ActionResult<string>> UpdateStatus(ulong id, [FromBody] Status status)
+    public async Task<ActionResult<string>> UpdateStatus(ulong id, [FromBody] BookStatus bookStatus)
     {
-        await bookApplicationService.UpdateStatusAsync(id, status)
+        await bookApplicationService.UpdateStatusAsync(id, bookStatus)
             .ConfigureAwait(false);
 
         logger.LogInformation("Book's status with id={bookId} was updated.", id);

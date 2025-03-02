@@ -4,7 +4,8 @@ using Core.Persistence.Contract;
 
 namespace Core.Application;
 
-public class BookApplicationService(IBookRepository repository) : IBookApplicationService
+public class BookApplicationService(IBookRepository repository, BookStateMachine bookStateMachine)
+    : IBookApplicationService
 {
     public async Task<ulong> AddBookAsync(Book book)
     {
@@ -13,12 +14,14 @@ public class BookApplicationService(IBookRepository repository) : IBookApplicati
 
     public async Task UpdateBookAsync(Book book)
     {
+        await bookStateMachine.DoTransitionAsync(book.Id, book.BookStatus);
         await repository.UpdateAsync(book);
     }
 
-    public async Task UpdateStatusAsync(ulong id, Status status)
+    public async Task UpdateStatusAsync(ulong id, BookStatus bookStatus)
     {
-        await repository.UpdateStatusAsync(id, status.ToString());
+        await bookStateMachine.DoTransitionAsync(id, bookStatus);
+        await repository.UpdateStatusAsync(id, bookStatus.ToString());
     }
 
     // public async Task<Book?> GetArticleAsync(int id)
