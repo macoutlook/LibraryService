@@ -4,8 +4,8 @@ using Core.Persistence.Contract;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Persistence.ArticleRepository;
-using Book = Persistence.ArticleRepository.DbModels.Book;
+using Persistence.BookRepository;
+using Book = Persistence.BookRepository.DbModels.Book;
 
 namespace Bootstrapper;
 
@@ -13,7 +13,7 @@ public static class Bootstrapper
 {
     public static void RegisterApplication(this IServiceCollection services)
     {
-        services.AddScoped<BookStateMachineVelidator>();
+        services.AddScoped<BookStateMachineValidator>();
         services.AddScoped<IBookApplicationService, BookApplicationService>();
     }
 

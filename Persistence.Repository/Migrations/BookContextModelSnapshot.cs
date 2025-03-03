@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Persistence.ArticleRepository;
+using Persistence.BookRepository;
 
 #nullable disable
 
-namespace Persistence.ArticleRepository.Migrations
+namespace Persistence.BookRepository.Migrations
 {
     [DbContext(typeof(BookContext))]
     partial class BookContextModelSnapshot : ModelSnapshot
@@ -21,7 +21,7 @@ namespace Persistence.ArticleRepository.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Persistence.ArticleRepository.DbModels.Book", b =>
+            modelBuilder.Entity("Persistence.BookRepository.DbModels.Book", b =>
                 {
                     b.Property<decimal>("Id")
                         .ValueGeneratedOnAdd()

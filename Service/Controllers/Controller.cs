@@ -17,7 +17,7 @@ public class Controller(
     : ControllerBase
 {
     [HttpPost]
-    [Route("/book")]
+    [Route("/books")]
     [ProducesResponseType((int)HttpStatusCode.Created)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<ActionResult<string>> Add([FromBody] [Required] BookDto bookDto)
@@ -30,7 +30,7 @@ public class Controller(
     }
 
     [HttpPost]
-    [Route("/book/{id}")]
+    [Route("/books/{id}")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<ActionResult<string>> Update(ulong id, [FromBody] [Required] BookDto bookDto)
@@ -52,7 +52,7 @@ public class Controller(
     }
 
     [HttpPatch]
-    [Route("/book/{id}")]
+    [Route("/books/{id}")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<ActionResult<string>> UpdateStatus(ulong id, [FromBody] BookStatus bookStatus)
@@ -65,7 +65,7 @@ public class Controller(
     }
     
     [HttpDelete]
-    [Route("/book/{id}")]
+    [Route("/books/{id}")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<ActionResult<string>> Delete(ulong id)
@@ -78,7 +78,7 @@ public class Controller(
     }
 
     [HttpGet]
-    [Route("book/{id}")]
+    [Route("books/{id}")]
     [ProducesResponseType((int) HttpStatusCode.OK)]
     [ProducesResponseType((int) HttpStatusCode.NotFound)]
     [ProducesResponseType((int) HttpStatusCode.BadRequest)]
@@ -86,21 +86,19 @@ public class Controller(
     {
         var book = await bookApplicationService.GetBookAsync(id).ConfigureAwait(false);
         if (book == null) return NotFound();
-        var articleDto = mapper.Map<BookDto>(book);
     
-        return Ok(articleDto);
+        return Ok(mapper.Map<BookDto>(book));
     }
-    //
-    // [HttpGet]
-    // [Route("/articles")]
-    // [ProducesResponseType((int)HttpStatusCode.OK)]
-    // [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-    // public async Task<ActionResult<IEnumerable<BookDto>>> GetAll([FromQuery] string? category,
-    //     [FromQuery] int skip = 0, [FromQuery] int take = 5)
-    // {
-    //     var articles = await articleApplicationService.GetArticlesAsync(category, skip, take).ConfigureAwait(false);
-    //     var articleDto = mapper.Map<List<BookDto>>(articles);
-    //
-    //     return Ok(articleDto);
-    // }
+    
+    [HttpGet]
+    [Route("/books")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int) HttpStatusCode.BadRequest)]
+    public async Task<ActionResult<IEnumerable<BookDto>>> Get([FromQuery] string? title, [FromQuery] string? author, [FromQuery] string? isbn, [FromQuery] BookStatus? status,
+        [FromQuery] int skip = 0, [FromQuery] int take = 5)
+    {
+        var books = await bookApplicationService.GetBooksAsync(title, author, isbn, status, skip, take).ConfigureAwait(false);
+    
+        return Ok(mapper.Map<List<BookDto>>(books));
+    }
 }

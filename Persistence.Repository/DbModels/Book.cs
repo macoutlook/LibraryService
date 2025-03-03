@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Persistence.ArticleRepository.DbModels;
+namespace Persistence.BookRepository.DbModels;
 
 public class Book
 {

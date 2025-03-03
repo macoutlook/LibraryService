@@ -3,7 +3,7 @@ using Core.Persistence.Contract;
 
 namespace Core.Application;
 
-public class BookStateMachineVelidator(IBookStatusRepository bookStatusRepository)
+public class BookStateMachineValidator(IBookStatusRepository bookStatusRepository)
 {
     private BookStatus _currentState;
 

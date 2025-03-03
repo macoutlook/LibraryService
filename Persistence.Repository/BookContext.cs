@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Persistence.ArticleRepository.DbModels;
+using Persistence.BookRepository.DbModels;
 
-namespace Persistence.ArticleRepository;
+namespace Persistence.BookRepository;
 
 /// <summary>
 ///     Database context from which db migration was generated.

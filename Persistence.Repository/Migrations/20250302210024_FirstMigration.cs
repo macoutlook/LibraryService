@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Persistence.ArticleRepository.Migrations
+namespace Persistence.BookRepository.Migrations
 {
     public partial class FirstMigration : Migration
     {

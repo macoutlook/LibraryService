@@ -4,12 +4,12 @@
         <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>Persistence.ArticleRepository</RootNamespace>
         <LangVersion>default</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="AutoMapper" Version="11.0.1"/>
+        <PackageReference Include="LinqKit" Version="1.3.8" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.3"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.3">
             <PrivateAssets>all</PrivateAssets>
