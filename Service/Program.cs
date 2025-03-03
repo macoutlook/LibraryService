@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using Bootstrapper;
 using FluentValidation.AspNetCore;
+using Service;
 using Service.Filters;
 using Service.Validators;
 
@@ -20,7 +21,7 @@ builder.Services.AddSwaggerGen();
 // Register components
 builder.Services.RegisterPersistence(builder.Configuration);
 builder.Services.RegisterApplication();
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 
 var app = builder.Build();
