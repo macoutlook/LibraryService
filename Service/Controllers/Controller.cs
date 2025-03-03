@@ -20,9 +20,9 @@ public class Controller(
     [Route("/books")]
     [ProducesResponseType((int)HttpStatusCode.Created)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<ActionResult<string>> Add([FromBody] [Required] BookDto bookDto)
+    public async Task<ActionResult<string>> Add([FromBody] [Required] BookDto bookDto, CancellationToken cancellationToken = default)
     {
-        var bookId = await bookApplicationService.AddBookAsync(mapper.Map<Book>(bookDto));
+        var bookId = await bookApplicationService.AddBookAsync(mapper.Map<Book>(bookDto), cancellationToken);
 
         logger.LogInformation("Book with id={bookId} was created.", bookId);
 
@@ -33,7 +33,7 @@ public class Controller(
     [Route("/books/{id}")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<ActionResult<string>> Update(ulong id, [FromBody] [Required] BookDto bookDto)
+    public async Task<ActionResult<string>> Update(ulong id, [FromBody] [Required] BookDto bookDto, CancellationToken cancellationToken = default)
     {
         var bookDomainModel = new Book
         {
@@ -44,7 +44,7 @@ public class Controller(
             BookStatus = bookDto.BookStatus
         };
 
-        await bookApplicationService.UpdateBookAsync(bookDomainModel);
+        await bookApplicationService.UpdateBookAsync(bookDomainModel, cancellationToken);
 
         logger.LogInformation("Book with id={bookId} was updated.", id);
 
@@ -55,9 +55,9 @@ public class Controller(
     [Route("/books/{id}")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<ActionResult<string>> UpdateStatus(ulong id, [FromBody] BookStatus bookStatus)
+    public async Task<ActionResult<string>> UpdateStatus(ulong id, [FromBody] BookStatus bookStatus, CancellationToken cancellationToken = default)
     {
-        await bookApplicationService.UpdateStatusAsync(id, bookStatus);
+        await bookApplicationService.UpdateStatusAsync(id, bookStatus, cancellationToken);
 
         logger.LogInformation("Book's status with id={bookId} was updated.", id);
 
@@ -68,9 +68,9 @@ public class Controller(
     [Route("/books/{id}")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<ActionResult<string>> Delete(ulong id)
+    public async Task<ActionResult<string>> Delete(ulong id, CancellationToken cancellationToken = default)
     {
-        await bookApplicationService.DeleteBookAsync(id);
+        await bookApplicationService.DeleteBookAsync(id, cancellationToken);
 
         logger.LogInformation("Book's status with id={bookId} was deleted.", id);
 
@@ -82,9 +82,9 @@ public class Controller(
     [ProducesResponseType((int) HttpStatusCode.OK)]
     [ProducesResponseType((int) HttpStatusCode.NotFound)]
     [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-    public async Task<ActionResult<BookDto>> Get([Required] ulong id)
+    public async Task<ActionResult<BookDto>> Get([Required] ulong id, CancellationToken cancellationToken = default)
     {
-        var book = await bookApplicationService.GetBookAsync(id).ConfigureAwait(false);
+        var book = await bookApplicationService.GetBookAsync(id, cancellationToken);
         if (book == null) return NotFound();
     
         return Ok(mapper.Map<BookDto>(book));
@@ -95,9 +95,9 @@ public class Controller(
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int) HttpStatusCode.BadRequest)]
     public async Task<ActionResult<IEnumerable<BookDto>>> Get([FromQuery] string? title, [FromQuery] string? author, [FromQuery] string? isbn, [FromQuery] BookStatus? status,
-        [FromQuery] int skip = 0, [FromQuery] int take = 5)
+        [FromQuery] int skip = 0, [FromQuery] int take = 5, CancellationToken cancellationToken = default)
     {
-        var books = await bookApplicationService.GetBooksAsync(title, author, isbn, status, skip, take).ConfigureAwait(false);
+        var books = await bookApplicationService.GetBooksAsync(title, author, isbn, status, skip, take, cancellationToken);
     
         return Ok(mapper.Map<List<BookDto>>(books));
     }

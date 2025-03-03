@@ -3,7 +3,7 @@
 // using EntityFrameworkCore.Testing.Moq;
 // using FluentAssertions;
 // using Microsoft.VisualStudio.TestTools.UnitTesting;
-// using Persistence.ArticleRepository;
+// using Persistence.BookRepository;
 // using Service;
 //
 // namespace Persistence.UnitTest;
@@ -13,7 +13,7 @@
 // {
 //     private IMapper _autoMapper;
 //     private BookContext _dbContext;
-//     private ArticleRepository.BookRepository _repository;
+//     private BookRepository.BookRepository _repository;
 //
 //     [TestInitialize]
 //     public void SetUp()
@@ -23,19 +23,19 @@
 //         _autoMapper = new MapperConfiguration(mapperConfig).CreateMapper();
 //
 //         _dbContext = Create.MockedDbContextFor<BookContext>();
-//         _repository = new ArticleRepository.BookRepository(_dbContext, _autoMapper);
+//         _repository = new BookRepository.BookRepository(_dbContext, _autoMapper);
 //
 //         TestDataFeed.Create(_dbContext);
 //     }
 //
 //     [TestMethod]
-//     public async Task GetArticleAsync_ProperIdGiven_ArticleFound()
+//     public async Task GetBookAsync_ProperIdGiven_BookFound()
 //     {
 //         // Arrange
 //         var id = 1;
 //
 //         // Act
-//         var result = await _repository.GetArticleAsync(id).ConfigureAwait(false);
+//         var result = await _repository.GetBookAsync(id).ConfigureAwait(false);
 //
 //         // Assert
 //         result.Should().NotBeNull();
@@ -43,13 +43,13 @@
 //     }
 //
 //     [TestMethod]
-//     public async Task GetArticleAsync_UnrecognizedIdGiven_ArticleNotFound()
+//     public async Task GetBookAsync_UnrecognizedIdGiven_BookNotFound()
 //     {
 //         // Arrange
 //         var id = 5;
 //
 //         // Act
-//         var result = await _repository.GetArticleAsync(id).ConfigureAwait(false);
+//         var result = await _repository.GetBookAsync(id).ConfigureAwait(false);
 //
 //         // Assert
 //         result.Should().BeNull();

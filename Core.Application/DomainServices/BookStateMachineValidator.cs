@@ -1,9 +1,9 @@
 ﻿using Core.Domain;
 using Core.Persistence.Contract;
 
-namespace Core.Application;
+namespace Core.Application.DomainServices;
 
-public class BookStateMachineValidator(IBookStatusRepository bookStatusRepository)
+public class BookStateMachineValidator(IBookStatusRepository bookStatusRepository) : IBookStateMachineValidator
 {
     private BookStatus _currentState;
 

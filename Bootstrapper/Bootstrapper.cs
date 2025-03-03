@@ -1,5 +1,6 @@
 ﻿using Core.Application;
 using Core.Application.Contract;
+using Core.Application.DomainServices;
 using Core.Persistence.Contract;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -13,7 +14,7 @@ public static class Bootstrapper
 {
     public static void RegisterApplication(this IServiceCollection services)
     {
-        services.AddScoped<BookStateMachineValidator>();
+        services.AddScoped<IBookStateMachineValidator, BookStateMachineValidator>();
         services.AddScoped<IBookApplicationService, BookApplicationService>();
     }
 
