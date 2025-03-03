@@ -76,7 +76,7 @@ public class BookRepository(BookContext context, IMapper mapper) : IBookReposito
     public async Task<IReadOnlyList<Book>> GetManyAsync(string? title, string? author, string? isbn, string? status,
         int skip = 0, int take = 5, CancellationToken cancellationToken = default)
     {
-        var predicate = PredicateBuilder.New<DbModels.Book>();
+        var predicate = PredicateBuilder.New<DbModels.Book>(true);
         if (!string.IsNullOrWhiteSpace(title))
             predicate.And(b => b.Title.Equals(title));
         if (!string.IsNullOrWhiteSpace(author))
