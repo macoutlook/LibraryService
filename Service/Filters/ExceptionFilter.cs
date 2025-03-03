@@ -4,35 +4,39 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Service.Filters;
 
-public class ExceptionFilter : IAsyncExceptionFilter
+public class ExceptionFilter(ILogger<ExceptionFilter> logger) : IAsyncExceptionFilter
 {
-    private readonly ILogger<ExceptionFilter> _logger;
-
-    public ExceptionFilter(ILogger<ExceptionFilter> logger)
+    public Task OnExceptionAsync(ExceptionContext context)
     {
-        _logger = logger;
-    }
+        var problemDetails = new ProblemDetails
+        {
+            Title = "An error occurred",
+            Detail = context.Exception.Message,
+            Status = 500,
+            Extensions = new Dictionary<string, object?>
+            {
+                { "traceId", context.HttpContext.TraceIdentifier }
+            }
+        };
 
-    public async Task OnExceptionAsync(ExceptionContext context)
-    {
         switch (context.Exception)
         {
-            case IException:
-                var exception = (IException)context.Exception;
+            case IException exception:
+                problemDetails.Status = exception.StatusCode;
                 var customExceptionResult =
-                    new ObjectResult($"{exception.OutsideMessage}{Environment.NewLine}Find details in log");
-                customExceptionResult.StatusCode = exception.StatusCode;
+                    new ObjectResult(problemDetails);
                 context.Result = customExceptionResult;
-                _logger.LogError(context.Exception,
-                    $"Exception: {context.Exception.Message}{Environment.NewLine}{context.Exception.InnerException?.Message}");
+                logger.LogError(context.Exception,
+                    "Exception: was thrown for request with id: {traceId}", context.HttpContext.TraceIdentifier);
                 break;
             default:
-                var result = new ObjectResult(context.Exception.Message);
-                result.StatusCode = 500;
+                var result = new ObjectResult(problemDetails);
                 context.Result = result;
-                _logger.LogError(context.Exception,
-                    $"Exception: {context.Exception.Message}{Environment.NewLine}{context.Exception.InnerException?.Message}");
+                logger.LogError(context.Exception,
+                    "Exception: was thrown for request with id: {traceId}", context.HttpContext.TraceIdentifier);
                 break;
         }
+
+        return Task.CompletedTask;
     }
 }

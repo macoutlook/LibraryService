@@ -3,11 +3,11 @@ using Core.Persistence.Contract;
 
 namespace Core.Application;
 
-public class BookStateMachine(IBookStatusRepository bookStatusRepository)
+public class BookStateMachineVelidator(IBookStatusRepository bookStatusRepository)
 {
     private BookStatus _currentState;
 
-    public async Task DoTransitionAsync(ulong id, BookStatus bookStatus)
+    public async Task ValidateAsync(ulong id, BookStatus bookStatus)
     {
         _currentState = Enum.Parse<BookStatus>(await bookStatusRepository.GetStatusAsync(id));
 

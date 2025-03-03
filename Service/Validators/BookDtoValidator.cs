@@ -3,9 +3,9 @@ using Service.Dtos;
 
 namespace Service.Validators;
 
-internal abstract class BookValidator : AbstractValidator<BookDto>
+internal abstract class BookDtoValidator : AbstractValidator<BookDto>
 {
-    public BookValidator()
+    public BookDtoValidator()
     {
         RuleFor(a => a).NotEmpty();
         RuleFor(r => r.Title).NotEmpty();

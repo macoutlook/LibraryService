@@ -13,7 +13,7 @@ public static class Bootstrapper
 {
     public static void RegisterApplication(this IServiceCollection services)
     {
-        services.AddScoped<BookStateMachine>();
+        services.AddScoped<BookStateMachineVelidator>();
         services.AddScoped<IBookApplicationService, BookApplicationService>();
     }
 

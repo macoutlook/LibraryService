@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers(options => { options.Filters.Add(typeof(ExceptionFilter)); })
     .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()))
     .AddFluentValidation(fv =>
-        fv.RegisterValidatorsFromAssemblyContaining<BookValidator>());
+        fv.RegisterValidatorsFromAssemblyContaining<BookDtoValidator>());
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
