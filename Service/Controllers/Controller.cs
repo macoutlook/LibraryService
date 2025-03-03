@@ -77,19 +77,19 @@ public class Controller(
         return Ok();
     }
 
-    // [HttpGet]
-    // [Route("article/{Id}")]
-    // [ProducesResponseType((int) HttpStatusCode.OK)]
-    // [ProducesResponseType((int) HttpStatusCode.NotFound)]
-    // [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-    // public async Task<ActionResult<BookDto>> Get([Required] int Id)
-    // {
-    //     var article = await articleApplicationService.GetArticleAsync(Id).ConfigureAwait(false);
-    //     if (article == null) return NotFound();
-    //     var articleDto = mapper.Map<BookDto>(article);
-    //
-    //     return Ok(articleDto);
-    // }
+    [HttpGet]
+    [Route("book/{id}")]
+    [ProducesResponseType((int) HttpStatusCode.OK)]
+    [ProducesResponseType((int) HttpStatusCode.NotFound)]
+    [ProducesResponseType((int) HttpStatusCode.BadRequest)]
+    public async Task<ActionResult<BookDto>> Get([Required] ulong id)
+    {
+        var book = await bookApplicationService.GetBookAsync(id).ConfigureAwait(false);
+        if (book == null) return NotFound();
+        var articleDto = mapper.Map<BookDto>(book);
+    
+        return Ok(articleDto);
+    }
     //
     // [HttpGet]
     // [Route("/articles")]

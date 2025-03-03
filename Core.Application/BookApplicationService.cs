@@ -29,6 +29,11 @@ public class BookApplicationService(IBookRepository repository, BookStateMachine
         await repository.DeleteAsync(id);
     }
 
+    public async Task<Book?> GetBookAsync(ulong id)
+    {
+        return await repository.GetAsync(id);
+    }
+
     // public async Task<Book?> GetArticleAsync(int id)
     // {
     //     return await _repository.GetArticleAsync(id).ConfigureAwait(false);

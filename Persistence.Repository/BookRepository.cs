@@ -63,10 +63,15 @@ public class BookRepository(BookContext context, IMapper mapper) : IBookReposito
         context.Books.Remove(book);
         await context.SaveChangesAsync();
     }
-    
+
     # endregion
 
     # region Query
+    
+    public async Task<Book?> GetAsync(ulong id)
+    {
+        return _mapper.Map<Book>(await context.Books.AsNoTracking().FirstOrDefaultAsync(b => b.Id == id));
+    }
     
     public async Task<string> GetStatusAsync(ulong id)
     {
